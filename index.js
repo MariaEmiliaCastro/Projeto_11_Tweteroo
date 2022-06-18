@@ -20,23 +20,24 @@ app.post("/tweets", (req, res) => {
     const username = tweet.username;
     const avatar = users.find(user => user.username === username);
     
-    if(avatar === ""){
-        console.log("User nao cadastrado!");
-    }else{
-        tweet["avatar"] = avatar.avatar;
-        console.log("New tweet data: ", tweet);
-        tweets.push(tweet);
-        res.send("OK!");
-    }
+    tweet["avatar"] = avatar.avatar;
+    console.log("New tweet data: ", tweet);
+    tweets.push(tweet);
+    res.send("OK!");
+
 
 })
 
 app.get("/tweets", (req, res) => {
     if(tweets.length <= 10){
-        res.send(tweets);
+        const reversedOrder = [...tweets].reverse();
+        console.log("New Order: ");
+        console.log(reversedOrder);
+        res.send(reversedOrder);
     }else{
         const start = tweets.length - 10;
-        const returnedTweets = tweets.slice(start, tweets.length);
+        let returnedTweets = tweets.slice(start, tweets.length);
+        returnedTweets = returnedTweets.reverse();
         res.send(returnedTweets);
     }
 })
